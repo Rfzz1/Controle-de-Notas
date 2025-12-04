@@ -1,12 +1,18 @@
 package com.mycompany.controlenotas;
 
-import java.awt.GridBagLayout;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.JFrame; //Janela
-import javax.swing.JLabel; //Textos não editáveis ou ícones
-import javax.swing.JPanel; // Área onde abriga e organiza componentes inseridos
-import javax.swing.JTextArea; // Espaço para inserir e visualizar textos
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger; //registrar o erro em um caderno organizado com data, hora e tipo de problema"
+//JFrame - Janela
+//JLabel - Textos não editáveis ou ícones
+//JPanel - Área onde abriga e organiza componentes inseridos
+//JTextArea - Espaço para inserir e visualizar textos
+//JOptionPane - Janelas de Diálogo, serve para exibir: 
+//              mensagens de aviso, erros, confirmações, perguntas, input
 
 public class ControleNotas {
     public static void main(String[] args) {
@@ -33,7 +39,7 @@ public class ControleNotas {
         
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 3;       // ocupa duas colunas
+        gbc.gridwidth = 3;       // ocupa 3 colunas
         gbc.anchor = GridBagConstraints.CENTER;
         painel.add(titulo, gbc);
         
@@ -47,16 +53,13 @@ public class ControleNotas {
         subtitulo.setEditable(false);
         subtitulo.setOpaque(false); // Fundo transparente
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 3;       // ocupa duas colunas
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridy = 1; 
         painel.add(subtitulo, gbc);
 
         // -----------------------
         // COMPONENTE 2: LABEL: "Nome"
         // -----------------------
-        JLabel labelNome = new JLabel("Insira o nome completo do aluno: ");
+        JLabel labelNome = new JLabel("Nome completo: ");
         
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -70,29 +73,123 @@ public class ControleNotas {
         JTextField nome = new JTextField(20);
 
         gbc.gridx = 1;
-        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;  // alinha à esquerda
         painel.add(nome, gbc);
        
         // -----------------------
-        // COMPONENTE 2.1: Botao: Cadastro
+        // COMPONENTE 3: Botao: Cadastro
         // -----------------------
         
         JButton cadastrar = new JButton("Cadastrar");
             gbc.gridx = 0;
-            gbc.gridy = 1;
-            gbc.gridwidth = 2;
+            gbc.gridy = 3;
+            gbc.gridwidth = 3;
             gbc.anchor = GridBagConstraints.CENTER;
             painel.add(cadastrar, gbc);
             
-            
-            
+        // -------------------------------------------------------------------
+        // AÇÃO: Botão - Registra no banco e direciona para a próxima página
+        // -------------------------------------------------------------------
         
-        // -----------------------
-        // Finalizando
-        // -----------------------
-        janela.add(painel);
-        janela.setLocationRelativeTo(null); // centraliza na tela
+        cadastrar.addActionListener(e -> { //Função
+            String nomeDigitado = nome.getText().trim(); //Inicializa a variavel e separa(trim)
+            if (nomeDigitado.isEmpty()) { //Se o nome digitado estiver vazio
+                JOptionPane.showMessageDialog(janela, "Digite um nome!", "Erro", JOptionPane.ERROR_MESSAGE); //Mensagem de Erro
+                return;
+            }
+            if (alunoExiste(nomeDigitado)) {
+                JOptionPane.showMessageDialog(janela, "Este aluno já está cadastrado!", 
+                                              "Aviso", JOptionPane.WARNING_MESSAGE);
+            } else {
+                cadastrarAluno(nomeDigitado, janela);
+            }
+            nome.setText("");
+        });
+        
+        // ----------------------------
+        // COMPONENTE 4: Botao: Entrar
+        // ----------------------------
+    
+        JButton entrar = new JButton("Entrar");
+            gbc.gridx = 1;
+            gbc.gridy = 3;
+            gbc.gridwidth = 3;
+            gbc.anchor = GridBagConstraints.CENTER;
+            painel.add(entrar, gbc);
+            
+        // -----------------------------------------------------------------------------------
+        // AÇÃO: Botão - Consulta no banco, entra na conta e redireciona para a próxima janela
+        // -----------------------------------------------------------------------------------
+        
+        entrar.addActionListener(e -> { //Função
+            String nomeDigitado = nome.getText().trim(); //Lê a variavel e separa(trim)
+            if (nomeDigitado.isEmpty()) { //Se o nome digitado estiver vazio
+                JOptionPane.showMessageDialog(janela, "Digite um nome!", "Erro", JOptionPane.ERROR_MESSAGE); //Mensagem de Erro
+                return;
+            }
+            
+            cadastrarAluno(nomeDigitado, janela); //Chama a funcção cadastrar aluno
+            nome.setText("");
+        });
+        
+        janela.add(painel); //Adiciona o painel na janela
+        janela.setLocationRelativeTo(null);
         janela.setVisible(true);
     }
+    
+    
+    // ----------------------------
+    //           FUNÇÕES
+    // ----------------------------   
+    
+    //-----------------
+    // Cadastro de aluno
+    //-----------------
+    
+    private static void cadastrarAluno(String nome, Component parent) {
+        String sql = "INSERT INTO alunos (aluno) VALUES (?)";
+
+        try (Connection conn = db.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nome);
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(parent, "Aluno cadastrado com sucesso!");
+
+            // Abre a tela Trimestres
+            Trimestres tri = new Trimestres();
+            tri.setVisible(true);
+
+            // Fecha a tela ControleNotas
+            if (parent instanceof JFrame janelaAtual) {
+                janelaAtual.dispose();
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(parent, "Erro ao cadastrar aluno!", "Erro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ControleNotas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //-------------------------------
+    // Verifica existência do aluno
+    //--------------------------------
+    
+    private static boolean alunoExiste(String nome) {
+    String sql = "SELECT id FROM alunos WHERE aluno = ? LIMIT 1";
+
+    try (Connection conn = db.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, nome);
+        return stmt.executeQuery().next(); // TRUE se encontrou, FALSE se não encontrou
+
+    } catch (SQLException ex) {
+        Logger.getLogger(ControleNotas.class.getName()).log(Level.SEVERE, null, ex);
+        return true; // por segurança, assume que existe caso dê erro
+    }
 }
+        
+
+}
+
