@@ -1,4 +1,13 @@
+Dicionarios\JOptionPane.class
 com\mycompany\controlenotas\db.class
 com\mycompany\controlenotas\Trimestres.class
-com\mycompany\controlenotas\ControleNotas.class
+com\mycompany\controlenotas\SegundoTri.class
 com\mycompany\controlenotas\PrimeiroTri.class
+com\mycompany\controlenotas\NotasSegundoT.class
+com\mycompany\controlenotas\RegistroTarTT.class
+com\mycompany\controlenotas\ControleNotas.class
+com\mycompany\controlenotas\TerceiroTri.class
+com\mycompany\controlenotas\NotasTerceiroT.class
+com\mycompany\controlenotas\NotasPrimeiroT.class
+com\mycompany\controlenotas\RegistroTarPT.class
+com\mycompany\controlenotas\RegistroTarST.class

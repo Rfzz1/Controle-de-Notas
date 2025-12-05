@@ -85,13 +85,13 @@ public class Trimestres extends JFrame {
         
         JButton terceirotri = new JButton ("3º TRIMESTRE");
             gbc.gridx = 0;
-            gbc.gridy = 2;
+            gbc.gridy = 3;
             gbc.gridwidth = 3;
             gbc.anchor = GridBagConstraints.CENTER;
             painel.add(terceirotri, gbc);
             
         // -----------------------
-        // AÇÃO: Botão - 2 Trimestre
+        // AÇÃO: Botão - 3 Trimestre
         // -----------------------
         
         terceirotri.addActionListener(e -> {

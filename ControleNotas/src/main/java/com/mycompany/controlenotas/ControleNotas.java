@@ -20,6 +20,8 @@ public class ControleNotas {
         JFrame janela = new JFrame("Controle de Notas");
         janela.setSize(800,600);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        
 
         // Painel com GridBagLayout
         JPanel painel = new JPanel(new GridBagLayout());
@@ -54,6 +56,7 @@ public class ControleNotas {
         subtitulo.setOpaque(false); // Fundo transparente
 
         gbc.gridy = 1; 
+        gbc.gridwidth = 2;
         painel.add(subtitulo, gbc);
 
         // -----------------------
@@ -63,8 +66,8 @@ public class ControleNotas {
         
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.EAST;  // alinha à direita
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
         painel.add(labelNome, gbc);
 
         // -----------------------
@@ -73,19 +76,29 @@ public class ControleNotas {
         JTextField nome = new JTextField(20);
 
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;  // alinha à esquerda
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.CENTER; 
         painel.add(nome, gbc);
        
-        // -----------------------
-        // COMPONENTE 3: Botao: Cadastro
-        // -----------------------
+        // -------------------------------------------
+        // COMPONENTE 3 e 4: Botões: Cadastro e Entrar
+        // -------------------------------------------
         
+        //Cria os botões
         JButton cadastrar = new JButton("Cadastrar");
-            gbc.gridx = 0;
-            gbc.gridy = 3;
-            gbc.gridwidth = 3;
+        JButton entrar = new JButton("Entrar");
+        
+        // Painel para deixar lado a lado e centralizado
+        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        painelBotoes.add(cadastrar);
+        painelBotoes.add(entrar);
+        
+        //Adiciona o painel de botões ABAIXO do campo nome
+            gbc.gridx = 1;
+            gbc.gridy = 4;
+            gbc.gridwidth = 1;
             gbc.anchor = GridBagConstraints.CENTER;
-            painel.add(cadastrar, gbc);
+            painel.add(painelBotoes, gbc);
             
         // -------------------------------------------------------------------
         // AÇÃO: Botão - Registra no banco e direciona para a próxima página
@@ -105,17 +118,6 @@ public class ControleNotas {
             }
             nome.setText("");
         });
-        
-        // ----------------------------
-        // COMPONENTE 4: Botao: Entrar
-        // ----------------------------
-    
-        JButton entrar = new JButton("Entrar");
-            gbc.gridx = 1;
-            gbc.gridy = 3;
-            gbc.gridwidth = 3;
-            gbc.anchor = GridBagConstraints.CENTER;
-            painel.add(entrar, gbc);
             
         // -----------------------------------------------------------------------------------
         // AÇÃO: Botão - Consulta no banco, entra na conta e redireciona para a próxima janela
@@ -128,8 +130,17 @@ public class ControleNotas {
                 return;
             }
             
-            cadastrarAluno(nomeDigitado, janela); //Chama a funcção cadastrar aluno
-            nome.setText("");
+            if (!Entrar(nomeDigitado)) {
+                JOptionPane.showMessageDialog(janela, "Aluno não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+            } else {
+                //Se chegou aqui aluno existe
+                JOptionPane.showMessageDialog(janela, "Entrando...");
+
+                Trimestres tri = new Trimestres();
+                tri.setVisible(true);
+                janela.dispose();               
+            }
+           
         });
         
         janela.add(painel); //Adiciona o painel na janela
@@ -189,7 +200,26 @@ public class ControleNotas {
         return true; // por segurança, assume que existe caso dê erro
     }
 }
+    
+    //--------------------------------
+    //            LOGIN ALUNO
+    //--------------------------------
+    
+    private static boolean Entrar(String nome) {
+        String sql = "SELECT id FROM alunos WHERE aluno = ? LIMIT 1";   
         
+        try (Connection conn = db.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1,nome);
+            return stmt.executeQuery().next();
+        
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ControleNotas.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
-}
+    }
 
