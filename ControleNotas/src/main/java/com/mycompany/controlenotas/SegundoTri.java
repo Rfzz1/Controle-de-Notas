@@ -9,9 +9,10 @@ import javax.swing.*;
 //Editor Pane - Textos html
 
 public class SegundoTri extends JFrame{
-
-    public SegundoTri() {
+    private final int idAluno;
+    public SegundoTri(int idAluno) {
         super("Seguno Trimestre");
+        this.idAluno = idAluno;
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +92,7 @@ public class SegundoTri extends JFrame{
         //          AÇÃO VOLTAR
         //--------------------------------
         voltar.addActionListener(e -> {
-            Trimestres tri = new Trimestres();
+            Trimestres tri = new Trimestres(idAluno);
             tri.setVisible(true);
             dispose();
         });

@@ -9,8 +9,11 @@ import javax.swing.*;
 //Editor Pane - Textos html
 
 public class Trimestres extends JFrame {
-    public Trimestres() {
+    private final int idAluno;
+    public Trimestres(int idAluno) {
         super("Trimestres");
+        this.idAluno = idAluno;
+        
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,10 +56,10 @@ public class Trimestres extends JFrame {
         // -----------------------
         
         primeirotri.addActionListener(e -> {
-        PrimeiroTri ptri = new PrimeiroTri();
-        ptri.setVisible(true);
-        dispose(); // fecha a tela atual (opcional)
-    });
+            PrimeiroTri ptri = new PrimeiroTri(idAluno);
+            ptri.setVisible(true);
+            dispose(); // fecha a tela atual (opcional)
+        });
         
         // -----------------------
         // COMPONENTE 3: BOtão - 2 trimestre
@@ -74,7 +77,7 @@ public class Trimestres extends JFrame {
         // -----------------------
         
         segundotri.addActionListener(e -> {
-        SegundoTri stri = new SegundoTri();
+        SegundoTri stri = new SegundoTri(idAluno);
         stri.setVisible(true);
         dispose(); // fecha a tela atual (opcional)
     });
@@ -95,7 +98,7 @@ public class Trimestres extends JFrame {
         // -----------------------
         
         terceirotri.addActionListener(e -> {
-        TerceiroTri ttri = new TerceiroTri();
+        TerceiroTri ttri = new TerceiroTri(idAluno);
         ttri.setVisible(true);
         dispose(); // fecha a tela atual (opcional)
     });

@@ -135,8 +135,10 @@ public class ControleNotas {
             } else {
                 //Se chegou aqui aluno existe
                 JOptionPane.showMessageDialog(janela, "Entrando...");
+                
+                int idAluno = buscarIdAluno(nomeDigitado); // você já deve ter isso no banco
 
-                Trimestres tri = new Trimestres();
+                Trimestres tri = new Trimestres(idAluno);
                 tri.setVisible(true);
                 janela.dispose();               
             }
@@ -157,30 +159,40 @@ public class ControleNotas {
     // Cadastro de aluno
     //-----------------
     
-    private static void cadastrarAluno(String nome, Component parent) {
-        String sql = "INSERT INTO alunos (aluno) VALUES (?)";
+private static void cadastrarAluno(String nome, Component parent) {
+    String sql = "INSERT INTO alunos (aluno) VALUES (?)";
 
-        try (Connection conn = db.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    try (Connection conn = db.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, nome);
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(parent, "Aluno cadastrado com sucesso!");
+        stmt.setString(1, nome);
+        stmt.executeUpdate();
 
-            // Abre a tela Trimestres
-            Trimestres tri = new Trimestres();
-            tri.setVisible(true);
-
-            // Fecha a tela ControleNotas
-            if (parent instanceof JFrame janelaAtual) {
-                janelaAtual.dispose();
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(parent, "Erro ao cadastrar aluno!", "Erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(ControleNotas.class.getName()).log(Level.SEVERE, null, ex);
+        // Pega o ID gerado
+        int idAluno = -1;
+        var rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+            idAluno = rs.getInt(1);
         }
+
+        JOptionPane.showMessageDialog(parent, "Aluno cadastrado com sucesso!");
+
+        // abre Trimestres com ID
+        Trimestres tri = new Trimestres(idAluno);
+        tri.setVisible(true);
+
+        // fecha janela atual
+        if (parent instanceof JFrame janelaAtual) {
+            janelaAtual.dispose();
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(parent, "Erro ao cadastrar aluno!", "Erro", JOptionPane.ERROR_MESSAGE);
+        Logger.getLogger(ControleNotas.class.getName()).log(Level.SEVERE, null, ex);
     }
+}
+
+
     
     //-------------------------------
     // Verifica existência do aluno
@@ -220,6 +232,30 @@ public class ControleNotas {
             return false;
         }
     }
+    
+    //-----------------------------
+    //       BUSCAR ID ALUNO
+    //-----------------------------
+
+    private static int buscarIdAluno(String nome) {
+    String sql = "SELECT id FROM alunos WHERE aluno = ? LIMIT 1";
+
+    try (Connection conn = db.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, nome);
+        var rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("id");
+        } else {
+            return -1; // aluno não encontrado
+        }
+
+    } catch (SQLException ex) {
+        Logger.getLogger(ControleNotas.class.getName()).log(Level.SEVERE, null, ex);
+        return -1;
+    }
+}
 
     }
-

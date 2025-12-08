@@ -14,8 +14,10 @@ import javax.swing.*;
 //Editor Pane - Textos html
 
 public class RegistroTarPT extends JFrame{
-    public RegistroTarPT() {
+    private final int idAluno;
+    public RegistroTarPT(int idAluno) {
         super("Registro de Tarefas - 1º TRI");
+        this.idAluno = idAluno;
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,7 +71,7 @@ public class RegistroTarPT extends JFrame{
         //     AÇÃO: VOLTAR
         //---------------------
         voltar.addActionListener(e -> {
-            Trimestres tri = new Trimestres();
+            Trimestres tri = new Trimestres(idAluno);
             tri.setVisible(true);
             dispose();
         });

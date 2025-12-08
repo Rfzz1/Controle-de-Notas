@@ -4,6 +4,7 @@ com\mycompany\controlenotas\Trimestres.class
 com\mycompany\controlenotas\SegundoTri.class
 com\mycompany\controlenotas\PrimeiroTri.class
 com\mycompany\controlenotas\NotasSegundoT.class
+com\mycompany\controlenotas\RegistroTarefaDialog.class
 com\mycompany\controlenotas\RegistroTarTT.class
 com\mycompany\controlenotas\ControleNotas.class
 com\mycompany\controlenotas\TerceiroTri.class
