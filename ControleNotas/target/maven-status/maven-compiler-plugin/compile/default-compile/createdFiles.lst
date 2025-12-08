@@ -1,8 +1,11 @@
 Dicionarios\JOptionPane.class
 com\mycompany\controlenotas\db.class
+com\mycompany\controlenotas\Tarefa.class
 com\mycompany\controlenotas\Trimestres.class
+com\mycompany\controlenotas\RegistroTarPT$1.class
 com\mycompany\controlenotas\SegundoTri.class
 com\mycompany\controlenotas\PrimeiroTri.class
+com\mycompany\controlenotas\EditarTarefaDialog.class
 com\mycompany\controlenotas\NotasSegundoT.class
 com\mycompany\controlenotas\RegistroTarefaDialog.class
 com\mycompany\controlenotas\RegistroTarTT.class
