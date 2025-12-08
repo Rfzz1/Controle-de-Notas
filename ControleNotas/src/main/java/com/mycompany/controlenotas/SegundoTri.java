@@ -11,7 +11,7 @@ import javax.swing.*;
 public class SegundoTri extends JFrame{
     private final int idAluno;
     public SegundoTri(int idAluno) {
-        super("Seguno Trimestre");
+        super("Segundo Trimestre");
         this.idAluno = idAluno;
         setSize(800, 600);
         setLocationRelativeTo(null);
@@ -28,7 +28,7 @@ public class SegundoTri extends JFrame{
         //              Título
         //-------------------------------
         
-        JEditorPane titulo = new JEditorPane("text/html", "<h1 'text-align:center; background:transparent;'>Título</h1>");
+        JEditorPane titulo = new JEditorPane("text/html", "<h1 'text-align:center; background:transparent;'>Segundo Trimestre</h1>");
         titulo.setEditable(false);
         titulo.setOpaque(false);
         
@@ -63,7 +63,7 @@ public class SegundoTri extends JFrame{
         //---------------------------------------
         
         registro.addActionListener(e -> {
-            RegistroTarST reg = new RegistroTarST();
+            RegistroTarST reg = new RegistroTarST(idAluno);
             reg.setVisible(true);
             dispose();
         });
@@ -73,7 +73,7 @@ public class SegundoTri extends JFrame{
         //---------------------------------------        
         
         notas.addActionListener(e -> {
-            NotasSegundoT reg = new NotasSegundoT();
+            NotasSegundoT reg = new NotasSegundoT(idAluno);
             reg.setVisible(true);
             dispose();
         });

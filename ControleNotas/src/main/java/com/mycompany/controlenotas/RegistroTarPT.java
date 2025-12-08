@@ -71,8 +71,8 @@ public class RegistroTarPT extends JFrame{
         //     AÇÃO: VOLTAR
         //---------------------
         voltar.addActionListener(e -> {
-            Trimestres tri = new Trimestres(idAluno);
-            tri.setVisible(true);
+            PrimeiroTri Ptri = new PrimeiroTri(idAluno);
+            Ptri.setVisible(true);
             dispose();
         });
         

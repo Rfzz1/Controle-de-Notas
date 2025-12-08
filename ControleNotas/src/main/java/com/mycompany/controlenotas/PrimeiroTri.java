@@ -28,7 +28,7 @@ public class PrimeiroTri extends JFrame {
         //              Título
         //-------------------------------
         
-        JEditorPane titulo = new JEditorPane("text/html", "<h1 'text-align:center; background:transparent;'>Título</h1>");
+        JEditorPane titulo = new JEditorPane("text/html", "<h1 'text-align:center; background:transparent;'>Primeiro Trimestre</h1>");
         titulo.setEditable(false);
         titulo.setOpaque(false);
         
@@ -73,7 +73,7 @@ public class PrimeiroTri extends JFrame {
         //---------------------------------------        
         
         notas.addActionListener(e -> {
-            NotasPrimeiroT reg = new NotasPrimeiroT();
+            NotasPrimeiroT reg = new NotasPrimeiroT(idAluno);
             reg.setVisible(true);
             dispose();
         });

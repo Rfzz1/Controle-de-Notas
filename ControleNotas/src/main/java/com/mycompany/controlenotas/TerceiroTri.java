@@ -28,7 +28,7 @@ public class TerceiroTri extends JFrame{
         //              Título
         //-------------------------------
         
-        JEditorPane titulo = new JEditorPane("text/html", "<h1 'text-align:center; background:transparent;'>Título</h1>");
+        JEditorPane titulo = new JEditorPane("text/html", "<h1 'text-align:center; background:transparent;'>Terceiro Trimestre</h1>");
         titulo.setEditable(false);
         titulo.setOpaque(false);
         
@@ -63,7 +63,7 @@ public class TerceiroTri extends JFrame{
         //---------------------------------------
         
         registro.addActionListener(e -> {
-            RegistroTarTT reg = new RegistroTarTT();
+            RegistroTarTT reg = new RegistroTarTT(idAluno);
             reg.setVisible(true);
             dispose();
         });
@@ -73,7 +73,7 @@ public class TerceiroTri extends JFrame{
         //---------------------------------------        
         
         notas.addActionListener(e -> {
-            NotasTerceiroT reg = new NotasTerceiroT();
+            NotasTerceiroT reg = new NotasTerceiroT(idAluno);
             reg.setVisible(true);
             dispose();
         });
