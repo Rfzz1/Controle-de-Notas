@@ -25,20 +25,6 @@ public class Trimestres extends JFrame {
         // Espaçamento padrão entre elementos
         gbc.insets = new Insets(5, 5, 5, 5);
         
-        // -----------------------
-        // COMPONENTE 1: TÍTULO
-        // -----------------------
-        
-        JEditorPane titulo = new JEditorPane 
-        ("text/html","<h1 style='text-align:center; background:transparent;'>Título</h1>");
-        titulo.setEditable(false);
-        titulo.setOpaque(false); // Fundo transparente
-        
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 3;       // ocupa 3 colunas
-        gbc.anchor = GridBagConstraints.CENTER;
-        painel.add(titulo, gbc);
         
         // -----------------------
         // COMPONENTE 2: BOtão - 1 trimestre

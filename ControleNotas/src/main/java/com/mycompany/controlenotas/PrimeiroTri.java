@@ -44,7 +44,7 @@ public class PrimeiroTri extends JFrame {
         
         //Cria os botões
         JButton registro = new JButton("Registro de Provas/Trabalhos");
-        JButton notas = new JButton("Visualize suas notas");
+        JButton notas = new JButton("Boletim");
         
         // Painel para deixar lado a lado e centralizado
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));

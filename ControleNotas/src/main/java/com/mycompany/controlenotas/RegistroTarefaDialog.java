@@ -3,6 +3,8 @@ package com.mycompany.controlenotas;
 import java.awt.*;
 import java.sql.Connection; // Conexão com o banco
 import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level; //Log de erro
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -77,7 +79,8 @@ public class RegistroTarefaDialog extends JDialog{
        inputDescricao = new JTextArea(4, 20); // Descrição
        inputValorMax = new JTextField(); //Valor máximo
        inputNota = new JTextField(); //Nota
-       inputData = new JTextField("2025-12-04"); //Data
+       DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+       inputData = new JTextField(LocalDate.now().format(fmt)); //Data
        
         //------------------------------------
         //       Adicionando ao painel

@@ -85,6 +85,10 @@ public class EditarTarefaDialog extends JDialog {
     // SALVAR ALTERAÇÕES (UPDATE)
     // ---------------------------
     private void salvarAlteracoes() {
+        
+        System.out.println("ID materia: " + getIdMateria(selectMateria.getSelectedItem().toString()));
+        System.out.println("ID tipo: " + getIdTipo(selectTipo.getSelectedItem().toString()));
+
 
         String sql = """
             UPDATE avaliacoes 
@@ -181,7 +185,7 @@ public class EditarTarefaDialog extends JDialog {
     // OBTER ID DO TIPO
     // -------------------------
     private int getIdTipo(String tipo) {
-        String sql = "SELECT id FROM tipos_avaliacao WHERE avliacao = ? LIMIT 1";
+        String sql = "SELECT id FROM tipos_avaliacao WHERE avaliacao = ? LIMIT 1";
 
         try (Connection conn = db.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
